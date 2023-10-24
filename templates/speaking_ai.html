@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Text-to-Speech in Django</title>
+</head>
+<body>
+
+<textarea id="text" rows="4" cols="50"></textarea>
+<button onclick="speak()">Speak</button>
+<select id="voice"></select>
+
+<script>
+var voices = [];
+
+function populateVoices() {
+    voices = speechSynthesis.getVoices();
+    var voiceSelect = document.getElementById('voice');
+    voiceSelect.innerHTML = '';
+    voices.forEach(function(voice, index) {
+        if (voice.gender === 'female') {  // Check if the voice is female
+            var option = document.createElement('option');
+            option.value = index;
+            option.text = voice.name + ' (' + voice.lang + ')';
+            voiceSelect.appendChild(option);
+        }
+    });
+}
+
+speechSynthesis.onvoiceschanged = populateVoices;
+
+function speak() {
+    var text = document.getElementById('text').value;
+    var voiceIndex = document.getElementById('voice').value;
+    var speech = new SpeechSynthesisUtterance(text);
+    if (voiceIndex !== '') {
+        speech.voice = voices[voiceIndex];
+        speech.pitch = 0.5;  // Set pitch to low
+        speech.volume = 0.5;  // Set volume to soft
+    }
+    window.speechSynthesis.speak(speech);
+}
+</script>
+
+</body>
+</html>

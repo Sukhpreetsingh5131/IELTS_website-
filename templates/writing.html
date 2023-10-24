@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   
+  <title>IELTS Writing Task Community</title>
+  <style>
+    /* CSS styles here */
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #F4F4F4;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #FFFFFF;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333333;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #333333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #CCCCCC;
+      border-radius: 5px;
+    }
+
+    #writing-task {
+      padding: 20px;
+      background-color: #F8F8F8;
+      border-radius: 5px;
+    }
+
+    .submit-button {
+      background-color: #FF5722;
+      color: #FFFFFF;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .submit-button:hover {
+      background-color: #FF9800;
+    }
+
+    .success-message {
+      background-color: #4CAF50;
+      color: #FFFFFF;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>IELTS Writing Task Community</h1>
+
+    <div id="writing-task">
+      <h2>Writing Task 2</h2>
+      <p>Write an essay on the following topic:</p>
+      <p><em>"The impact of technology on society"</em></p>
+    </div>
+
+    <form method="post" action="/profiles/param/" id="submission-form">
+      {% csrf_token %}
+      <!-- Form fields for personal details -->
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <div style="display: flex; justify-content: space-between;">
+        <div style="flex-basis: 45%;">
+          <label for="age">Age:</label>
+          <input type="number" id="age" name="age" required>
+        </div>
+
+        <div style="flex-basis: 90%;">
+          <label for="gender">Gender:</label>
+          <select id="gender" name="gender" required>
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Form field for writing comment -->
+      <label for="comment">Comment:</label>
+      <textarea id="comment" name="comment" rows="10" required></textarea>
+
+      <button class="submit-button" type="submit">Submit</button>
+    </form>
+
+    <div id="success-message" class="success-message" style="display: none;">
+      <h2>Submission Successful!</h2>
+      <p>Thank you for submitting your information and comment.</p>
+    </div>
+  </div>
+</body>
+</html>

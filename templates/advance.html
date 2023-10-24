@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Amazing Text Box</title>
+  <link rel="stylesheet" type="text/css" href='{% static 'advance.css' %}'>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul class="menu">
+        <li><a href="/posts/home">Home</a></li>
+        <li><a href="/posts/abouts">About</a></li>
+        <li><a href="/posts/teacher">Services</a></li>
+        <li><a href="/posts/studentdata">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="textbox">
+      <input type="text" placeholder="Enter text...">
+    </div>
+    <div class="buttons">
+      <button>Button 1</button>
+      <button>Button 2</button>
+      <button>Button 3</button>
+    </div>
+  </div>
+</body>
+</html>

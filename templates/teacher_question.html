@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Form</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .success-message {
+            text-align: center;
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Teacher Form</h2>
+        <form id="teacher-form">
+            <label for="part1-topic">Part 1 Topic:</label>
+            <input type="text" id="part1-topic" required>
+
+            <label for="part1-questions">Part 1 Questions:</label>
+            <textarea id="part1-questions" required></textarea>
+
+            <label for="part2-topic">Part 2 Topic:</label>
+            <input type="text" id="part2-topic" required>
+
+            <label for="part2-questions">Part 2 Questions:</label>
+            <textarea id="part2-questions" required></textarea>
+
+            <label for="part3-topic">Part 3 Topic:</label>
+            <input type="text" id="part3-topic" required>
+
+            <label for="part3-questions">Part 3 Questions:</label>
+            <textarea id="part3-questions" required></textarea>
+
+            <div class="btn-container">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+        <div id="success-message" class="success-message"></div>
+    </div>
+
+    <script>
+        // JavaScript code
+       // JavaScript code
+document.getElementById("teacher-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // Get the entered values
+    var part1Topic = document.getElementById("part1-topic").value;
+    var part1Questions = document.getElementById("part1-questions").value;
+
+    var part2Topic = document.getElementById("part2-topic").value;
+    var part2Questions = document.getElementById("part2-questions").value;
+
+    var part3Topic = document.getElementById("part3-topic").value;
+    var part3Questions = document.getElementById("part3-questions").value;
+
+    // Create an object with the form data
+    var formData = {
+        part1_topic: part1Topic,
+        part1_questions: part1Questions,
+        part2_topic: part2Topic,
+        part2_questions: part2Questions,
+        part3_topic: part3Topic,
+        part3_questions: part3Questions
+    };
+
+    // Get the CSRF token from the cookies
+    var csrftoken = getCookie("csrftoken");
+
+    // Add the CSRF token to the request headers
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/profiles/store_questions/", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Display success message
+                document.getElementById("success-message").textContent = "Submitted successfully.";
+
+                // Clear the form
+                document.getElementById("teacher-form").reset();
+            } else {
+                // Display error message
+                document.getElementById("success-message").textContent = "An error occurred.";
+            }
+        }
+    };
+    xhr.send(JSON.stringify(formData));
+});
+
+// Function to get the CSRF token from the cookies
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        var cookies = document.cookie.split(";");
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+    </script>
+</body>
+</html>

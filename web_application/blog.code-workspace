@@ -1,0 +1,83 @@
+{
+	"folders": [
+		{
+			"path": "../blog"
+		},
+		{
+			"path": "../env"
+		},
+		{
+			"path": "../env/bin"
+		},
+		{
+			"path": "../env/include"
+		},
+		{
+			"path": "../env/lib"
+		},
+		{
+			"path": "../libs"
+		},
+		{
+			"path": "../liveroom"
+		},
+		{
+			"path": "../liveroom/__pycache__"
+		},
+		{
+			"path": "../liveroom/migrations"
+		},
+		{
+			"path": "../profiles"
+		},
+		{
+			"path": "../profiles/__pycache__"
+		},
+		{
+			"path": "../profiles/migrations"
+		},
+		{
+			"path": "../profiles/migrations/__pycache__"
+		},
+		{
+			"path": "../samples"
+		},
+		{
+			"path": "../static"
+		},
+		{
+			"path": "../static/form.js"
+		},
+		{
+			"path": "../static/imagess"
+		},
+		{
+			"path": "../static/img"
+		},
+		{
+			"path": "../static/js"
+		},
+		{
+			"path": "../static/jss"
+		},
+		{
+			"path": "../temp"
+		},
+		{
+			"path": "../templates"
+		},
+		{
+			"path": "../templates/images"
+		},
+		{
+			"path": "../uploads/images"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "__pycache__"
+		}
+	],
+	"settings": {}
+}

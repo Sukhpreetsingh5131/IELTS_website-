@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      background-image: url('background.jpg');
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.7);
+      height: 60px;
+    }
+    .section {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    #speaking {
+      background-color: #ff4b5c;
+    }
+    #listening {
+      background-color: #0068b4;
+    }
+    #reading {
+      background-color: #39b54a;
+    }
+    #writing {
+      background-color: #6a4719;
+    }
+    .content {
+      display: none;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #333;
+    }
+    .image-container {
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    .image-container img {
+      width: 100%;
+      height: auto;
+    }
+    .subfolder-list {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .subfolder-link {
+      display: inline-block;
+      padding: 10px 20px;
+      color: #000000;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      background-color: #FFCDD2; /* New background color */
+    }
+    #speaking .subfolder-link {
+      background-color: #FFCDD2;
+    }
+    #listening .subfolder-link {
+      background-color: #BBDEFB;
+    }
+    #reading .subfolder-link {
+      background-color: #C8E6C9;
+    }
+    #writing .subfolder-link {
+      background-color: #D7CCC8;
+    }
+    .subfolder-link:hover {
+      background-color: #9b6719;
+    }
+  </style>
+  <script>
+    function showSection(sectionId) {
+      var sections = document.getElementsByClassName("section");
+      for (var i = 0; i < sections.length; i++) {
+        sections[i].classList.remove("active");
+      }
+      
+      document.getElementById(sectionId).classList.add("active");
+      
+      var contents = document.getElementsByClassName("content");
+      for (var j = 0; j < contents.length; j++) {
+        contents[j].style.display = "none";
+      }
+      
+      document.getElementById(sectionId + "-content").style.display = "block";
+    }
+  </script>
+</head>
+<body>
+  <div class="navbar">
+    <div id="speaking" class="section active" onclick="showSection('speaking')">Speaking</div>
+    <div id="listening" class="section" onclick="showSection('listening')">Listening</div>
+    <div id="reading" class="section" onclick="showSection('reading')">Reading</div>
+    <div id="writing" class="section" onclick="showSection('writing')">Writing</div>
+  </div>
+
+  <div id="speaking-content" class="content" style="display: block;">
+    <div class="subfolder-list">
+      <a class="subfolder-link" href="speaking/ai" target="_blank">Speaking AI</a>
+      <a class="subfolder-link" href="speaking/liveroom" target="_blank">SPEAKING LIVE ROOMS</a>
+    </div>
+    <div class="image-container">
+      <img src="https://www.iwinvisa.com/blog/wp-content/uploads/2021/12/How-to-improve-speaking-in-IELTS-1024x538.png" alt="Speaking Image">
+    </div>
+  </div>
+
+  <div id="listening-content" class="content">
+    <div class="subfolder-list">
+      <a class="subfolder-link" href="listening/tips.html" target="_blank">Listening Tips</a>
+    </div>
+    <div class="image-container">
+      <img src="https://www.britishcouncil.org.ua/sites/default/files/12_tips_to_improve_your_ielts_listening_and_reading_scores_.png" alt="Listening Image">
+    </div>
+  </div>
+
+  <div id="reading-content" class="content">
+    <div class="subfolder-list">
+      <a class="subfolder-link" href="reading/strategies.html" target="_blank">Reading Strategies</a>
+      <a class="subfolder-link" href="reading/content" target="_blank">Reading Materials</a>
+    </div>
+    <div class="image-container">
+      <img src="https://gln.edu.vn/wp-content/uploads/2020/10/bi-kip-chiem-tron-band-diem-ielts-reading-01.png" alt="Reading Image">
+    </div>
+  </div>
+
+  <div id="writing-content" class="content">
+    <div class="subfolder-list">
+      <a class="subfolder-link" href="writing/community" target="_blank">Writing Community</a>
+      <a class="subfolder-link" href="writing/tricks.html" target="_blank">Writing Tricks</a>
+      <a class="subfolder-link" href="writing/ai" target="_blank">Writing AI</a>
+    </div>
+    <div class="image-container">
+      <img src="https://grade-online.com/wp-content/uploads/2021/07/IELTS-speaking.jpeg" alt="Speaking Image">
+    </div>
+  </div>
+</body>
+</html>

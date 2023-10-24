@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Feedback Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      text-align: center;
+    }
+    
+    .personal-details {
+      margin-bottom: 20px;
+    }
+    
+    .personal-details label {
+      font-weight: bold;
+    }
+    
+    .writing-content {
+      margin-bottom: 20px;
+    }
+    
+    .recording-controls {
+      margin-bottom: 20px;
+    }
+    
+    .feedback-form {
+      margin-bottom: 20px;
+    }
+    
+    .error-space {
+      margin-bottom: 20px;
+    }
+    
+    .score {
+      margin-bottom: 20px;
+    }
+    
+    .next-button {
+      margin-top: 10px;
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .next-button:hover {
+      background-color: #45a049;
+    }
+
+    /* Additional Styles */
+    textarea {
+      width: 200%;
+      padding: 10px;
+      resize: vertical;
+    }
+
+    .suggestions-list {
+      margin-top: 10px;
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .suggestions-list li {
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+    }
+
+    .suggestions-list li input[type="text"] {
+      flex-grow: 1;
+      margin-left: 10px;
+    }
+
+    .selected-text {
+      margin-top: 20px;
+    }
+
+    .highlight-mistake {
+      background-color: #f00d0d;
+    }
+
+    .submit-button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-button:hover {
+      background-color: #45a049;
+    }
+
+    .success-message {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .feedback-audio {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Student Feedback Form</h1>
+    <h1>Student Feedback Form</h1>
+    <form method="post" action="/teacher/success" enctype="multipart/form-data">
+
+        {% csrf_token %}
+    <div class="personal-details">
+      <label for="name">Name:</label>
+      <span id="name">{{ eassay_full.name }}</span>
+      <br>
+      <label for="email">Email:</label>
+      <span id="email">{{ eassay_full.email }}</span>
+      <br>
+      <label for="age">Age:</label>
+      <span id="age">{{ eassay_full.age }}</span>
+      <br>
+      <label for="gender">Gender:</label>
+      <span id="gender">{{ eassay_full.gender }}</span>
+    </div>
+    <div class="writing-content">
+      <h3>Writing Content:</h3>
+      <p id="writing-content">{{ eassay_full.comments }}</p>
+    </div>
+    <div class="recording-controls">
+      <button id="start-recording-button" onclick="startRecording()">Start Recording</button>
+      <button id="stop-recording-button" onclick="stopRecording()" disabled>Stop Recording</button>
+    </div>
+    <div class="selected-text">
+      <h3>Selected Text:</h3>
+      <p id="selected-text"></p>
+    </div>
+    <div class="feedback-form">
+      <h3>Feedback Form:</h3>
+      <textarea id="feedback" placeholder="Write your feedback here"></textarea>
+    </div>
+    <div class="error-space">
+      <h3>Teacher's Mistakes:</h3>
+      <textarea id="errors" placeholder="Write the mistakes here"></textarea>
+      <p>Suggestions:</p>
+      <ul class="suggestions-list" id="suggestions-list">
+        <li>
+          Point 1: 
+          <input type="text" name="point1">
+        </li>
+        <li>
+          Point 2: 
+          <input type="text" name="point2">
+        </li>
+      </ul>
+      <button class="next-button" onclick="addPoint()">Next</button>
+    </div>
+    <div class="score">
+      <h3>Score:</h3>
+      <input type="radio" id="band5" name="score" value="5">
+      <label for="band5">5</label>
+      <input type="radio" id="band5.5" name="score" value="5.5">
+      <label for="band5.5">5.5</label>
+      <input type="radio" id="band6" name="score" value="6">
+      <label for="band6">6</label>
+      <input type="radio" id="band6.5" name="score" value="6.5">
+      <label for="band6.5">6.5</label>
+      <input type="radio" id="band7" name="score" value="7">
+      <label for="band7">7</label>
+      <input type="radio" id="band7.5" name="score" value="7.5">
+      <label for="band7.5">7.5</label>
+      <input type="radio" id="band8" name="score" value="8">
+      <label for="band8">8</label>
+      <input type="radio" id="band8.5" name="score" value="8.5">
+      <label for="band8.5">8.5</label>
+      <input type="radio" id="band9" name="score" value="9">
+      <label for="band9">9</label>
+    </div>
+    <button class="submit-button" onclick="submitForm()">Submit</button>
+    <div id="success-message"></div>
+    <audio class="feedback-audio" id="feedback-audio" controls></audio>
+  </div>
+  
+  <script>
+    var pointCount = 2;
+    var recordedChunks = [];
+    var mediaRecorder;
+
+    function addPoint() {
+      var suggestionsList = document.getElementById('suggestions-list');
+      var newPoint = document.createElement('li');
+      newPoint.innerHTML = 'Point ' + pointCount + ': <input type="text" name="point' + pointCount + '">';
+      suggestionsList.appendChild(newPoint);
+      pointCount++;
+    }
+
+    function startRecording() {
+      var constraints = { audio: true };
+
+      navigator.mediaDevices.getUserMedia(constraints)
+        .then(function(stream) {
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.start();
+
+          var startButton = document.getElementById('start-recording-button');
+          var stopButton = document.getElementById('stop-recording-button');
+
+          startButton.disabled = true;
+          stopButton.disabled = false;
+
+          mediaRecorder.ondataavailable = function(e) {
+            recordedChunks.push(e.data);
+          };
+
+          mediaRecorder.onstop = function() {
+            var audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
+            var audioURL = URL.createObjectURL(audioBlob);
+            var feedbackAudio = document.getElementById('feedback-audio');
+            feedbackAudio.src = audioURL;
+          };
+        })
+        .catch(function(err) {
+          console.log('The following error occurred: ' + err);
+        });
+    }
+
+    function stopRecording() {
+      mediaRecorder.stop();
+
+      var startButton = document.getElementById('start-recording-button');
+      var stopButton = document.getElementById('stop-recording-button');
+
+      startButton.disabled = false;
+      stopButton.disabled = true;
+
+      recordedChunks = [];
+    }
+
+    function getSelectedText() {
+      var text = '';
+
+      if (typeof window.getSelection !== 'undefined') {
+        text = window.getSelection().toString();
+      } else if (typeof document.selection !== 'undefined' && document.selection.type === 'Text') {
+        text = document.selection.createRange().text;
+      }
+
+      return text;
+    }
+
+    function markMistake() {
+      var selectedText = getSelectedText();
+      var selectedTextElement = document.getElementById('selected-text');
+      var writingContent = document.getElementById('writing-content');
+
+      if (selectedText) {
+        selectedTextElement.innerText = selectedText;
+        writingContent.innerHTML = writingContent.innerHTML.replace(new RegExp(selectedText, 'g'), '<span class="highlight-mistake">' + selectedText + '</span>');
+      } else {
+        selectedTextElement.innerText = '';
+        writingContent.innerHTML = writingContent.innerHTML.replace(new RegExp('<span class="highlight-mistake">', 'g'), '').replace(new RegExp('</span>', 'g'), '');
+      }
+    }
+
+    function submitForm() {
+      var feedback = document.getElementById('feedback').value;
+      var errors = document.getElementById('errors').value;
+      var score = document.querySelector('input[name="score"]:checked');
+
+      if (feedback === '' || errors === '' || !score) {
+        alert('Please fill in all fields!');
+        return;
+      }
+
+      var successMessage = document.getElementById('success-message');
+      successMessage.innerText = 'Form submitted successfully!';
+
+      var feedbackAudio = document.getElementById('feedback-audio');
+      feedbackAudio.pause();
+      feedbackAudio.currentTime = 0;
+    }
+
+    document.onmouseup = markMistake;
+    document.getElementById('errors').oninput = markMistake;
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+body {
+  background-color: #ffffff;
+  font-family: sans-serif;
+}
+
+h1 {
+  font-size: 2em;
+  margin-top: 0;
+}
+
+nav {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 10px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0000ff;
+}
+
+section {
+  padding: 20px;
+}
+
+img {
+  width: 50%;
+}
+
+footer {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 10px;
+  text-align: center;
+}

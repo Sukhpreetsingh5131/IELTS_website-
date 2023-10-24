@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Progress Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    canvas {
+      display: block;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="progressChart"></canvas>
+
+  <script>
+    // Sample data for progress
+    var marks = [5, 7, 8, 6, 9]; // Marks obtained on each day
+    var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]; // Days of the week
+
+    // Create a line chart
+    var ctx = document.getElementById("progressChart").getContext("2d");
+    var chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: days,
+        datasets: [
+          {
+            label: "Progress",
+            data: marks,
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 10,
+          },
+        },
+      },
+    });
+  </script>
+</body>
+</html>

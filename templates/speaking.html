@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to My App</title>
+  <style>
+    body {
+      background-color: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #ffffff;
+    }
+
+    .welcome-message {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      position: relative; /* Added positioning for error message */
+    }
+
+    .country-code select {
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 10px;
+    }
+
+    .phone-number input {
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 10px;
+    }
+
+    .otp-input input {
+      margin-bottom: 10px;
+      width: 70px;
+      padding: 10px;
+    }
+
+    .submit-button button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .submit-button button:hover {
+      background-color: #45a049;
+    }
+
+    .error-message {
+      text-align: center;
+      color: #ff0000;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-message">
+    <h1>Welcome to My App!</h1>
+    <p>Please enter your mobile number:</p>
+  </div>
+  <div class="card">
+    <form action="/profiles/otp/" method="POST"> 
+      {% csrf_token %}
+      <div class="country-code">
+        <select id="country-select" name="country_code">
+          <option value="+1">+1 (USA)</option>
+          <option value="+44">+44 (UK)</option>
+          <option value="+91">+91 (India)</option>
+          <!-- Add more country codes and names as needed -->
+        </select>
+      </div>
+      <div class="phone-number">
+        <input type="tel" id="phone-input" name="phone_number" placeholder="Enter your phone number">
+      </div>
+      <div class="submit-button">
+        <button type="submit">Send OTP</button>
+      </div>
+      {% if error_message %}
+        <div class="error-message">{{ error_message }}</div>
+      {% endif %}
+    </form>
+  </div>
+
+  <div class="otp-input" id="otp-container" style="display: none;">
+    <!-- OTP input fields and verification button omitted for brevity -->
+  </div>
+
+  <script>
+    // Add your JavaScript code here
+  </script>
+</body>
+</html>

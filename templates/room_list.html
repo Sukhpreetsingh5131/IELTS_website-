@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      background-color: black;
+    }
+
+    .white-card {
+      background-color: white;
+      color: black;
+      padding: 20px;
+      margin-bottom: 20px;
+      width: 300px;
+      height: 250px;
+      position: relative;
+      border-radius: 10px;
+      transition: border-color 0.2s ease-in-out;
+    }
+
+    .sub-card {
+      width: 90%;
+      height: 70%;
+      position: absolute;
+      top: 15px;
+      left: 5%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #e6e6fa; /* Light Purple */
+      border-radius: 10px;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .profile-picture {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      object-fit: cover;
+    }
+
+    .no-profile-picture {
+      font-size: 60px;
+      color: #bfbfbf;
+    }
+
+    .tag-button {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      width: 120px;
+      height: 30px;
+      background-color: goldenrod;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 15px;
+    }
+
+    .tag-button p {
+      color: black;
+      font-weight: bold;
+    }
+
+    .sub-card-content {
+      text-align: center;
+    }
+
+    .user-name {
+      position: absolute;
+      top: 25px;
+      left: 15px;
+      color: black;
+      font-weight: bold;
+    }
+
+    .highlight-text {
+      color: #070707;
+      font-weight: bold;
+    }
+
+    .dark-text {
+      color: #333333;
+    }
+
+    /* Additional styles for the circular sign */
+    .circle-sign {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .circle-sign i {
+      color: #000;
+    }
+
+    /* Added styles for user count and live indicator */
+    .user-count {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      color: white;
+    }
+
+    .user-count i {
+      font-size: 18px;
+      margin-right: 5px;
+    }
+
+    .count {
+      margin-left: 5px;
+    }
+
+    .live-indicator {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      color: red;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background-color: red;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+
+    .live-text {
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    /* Additional style for follower count */
+    .follower-count {
+      position: absolute;
+      bottom: 45px;
+      left: 15px;
+      color: black;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    /* Added style for clickable sub-cards */
+    .clickable-card {
+      cursor: pointer;
+    }
+  </style>
+  <script>
+    function getRandomColor() {
+      var colors = ['#add8e6', '#90ee90', '#e0b0ff', '#ffb6c1', '#ffa500']; /* Light Blue, Light Green, Light Purple, Light Pink, Orange */
+      var randomIndex = Math.floor(Math.random() * colors.length);
+      return colors[randomIndex];
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+      var subCards = document.querySelectorAll('.sub-card');
+
+      subCards.forEach(function (subCard) {
+        var randomColor = getRandomColor();
+        subCard.style.backgroundColor = randomColor;
+
+        subCard.addEventListener('mouseover', function () {
+          subCard.style.transform = 'translateY(-5px)';
+          subCard.parentElement.style.borderColor = 'yellow';
+        });
+
+        subCard.addEventListener('mouseleave', function () {
+          subCard.style.transform = 'translateY(0)';
+          subCard.parentElement.style.borderColor = 'transparent';
+        });
+
+        // Random User Count (between 0 and 10)
+        var userCount = Math.floor(Math.random() * 11);
+        subCard.querySelector('.count').textContent = userCount;
+
+        // Show Live Indicator if userCount is greater than 0
+        var liveIndicator = subCard.querySelector('.live-indicator');
+        if (userCount > 0) {
+          liveIndicator.style.display = 'flex';
+        } else {
+          liveIndicator.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  {% for room in rooms %}
+  <div class="white-card">
+    <!-- Added an anchor tag around the sub-card with a dynamic URL -->
+    <a class="clickable-card" href="/profiles/room_app/create/{{ room.room_ide }}{{ room.room_url }}">
+      <div class="sub-card">
+        <!-- User Profile Picture -->
+        {% if room.user_profile_picture %}
+          <img class="profile-picture" src="{{ room.user_profile_picture }}" alt="Profile Picture">
+        {% else %}
+          <i class="fas fa-user-circle no-profile-picture"></i>
+        {% endif %}
+
+        <!-- Circular Sign -->
+        <div class="circle-sign">
+          <i class="fas fa-arrow-right"></i>
+        </div>
+
+        <!-- User Count -->
+        <div class="user-count">
+          <i class="fas fa-users"></i>
+          <span class="count">{{ room.followers }}</span>
+        </div>
+
+        <!-- Sub Card Content -->
+        <div class="sub-card-content">
+          <!-- Room Title -->
+          <h1 class="highlight-text">{{ room.title }}</h1>
+
+          <!-- User Name -->
+          <p class="user-name highlight-text">{{ room.user_name }}</p>
+
+          <!-- Number of Followers -->
+          <div class="follower-count">
+            <p>{{ room.followers }} Followers</p>
+          </div>
+        </div>
+
+        <!-- Tag Button -->
+        <div class="tag-button">
+          <p>{{ room.tag }}</p>
+        </div>
+
+        <!-- Live Indicator -->
+        <div class="live-indicator">
+          <div class="dot"></div>
+          <p class="live-text">LIVE</p>
+        </div>
+      </div>
+    </a>
+    <!-- Text Content -->
+    <p style="position: absolute; bottom: 15px;" class="dark-text">{{ room.text }}</p>
+  </div>
+{% endfor %}
+
+</body>
+</html>

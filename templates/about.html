@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* CSS styles for the page */
+    .container {
+      text-align: center;
+      margin-top: 100px;
+    }
+    
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: rgb(61, 52, 52);
+      border: none;
+      cursor: pointer;
+      margin: 10px;
+    }
+    
+    button:disabled {
+      background-color: #808080;
+      cursor: not-allowed;
+    }
+    
+    p {
+      font-size: 18px;
+    }
+    
+    #timer {
+      font-weight: bold;
+    }
+    
+    #transcript {
+      width: 300px;
+      height: 150px;
+      margin-top: 20px;
+      font-size: 16px;
+      resize: none;
+      padding: 5px;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      const startButton = document.getElementById('start-button');
+      const stopButton = document.getElementById('stop-button');
+      const transcriptOutput = document.getElementById('transcript');
+      const sendButton = document.getElementById('send-button');
+
+      let recognition;
+      let timer;
+      let secondsRemaining = 30;
+
+      function startRecording() {
+        recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = function(event) {
+          let transcript = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              transcript += event.results[i][0].transcript;
+            }
+          }
+          transcriptOutput.value = transcript;
+          checkTranscript();
+        };
+
+        recognition.onend = function() {
+          stopRecording();
+          checkTranscript();
+        };
+
+        recognition.start();
+        timer = setInterval(updateTimer, 1000);
+        startButton.disabled = true;
+        stopButton.disabled = false;
+      }
+
+      function stopRecording() {
+        clearInterval(timer);
+        recognition.stop();
+        startButton.disabled = false;
+        stopButton.disabled = true;
+      }
+
+      function updateTimer() {
+        secondsRemaining--;
+        document.getElementById('timer').textContent = secondsRemaining;
+
+        if (secondsRemaining <= 0) {
+          stopRecording();
+          checkTranscript();
+        }
+      }
+
+      function checkTranscript() {
+        if (transcriptOutput.value.trim() !== '') {
+          sendButton.disabled = false;
+        } else {
+          sendButton.disabled = true;
+        }
+      }
+
+      function sendTranscript(transcript) {
+        $.ajax({
+          type: 'POST',
+          url: '/posts/abouts/success',
+
+          data: { 'transcript': transcript },
+          success: function(response) {
+            console.log('Transcript sent successfully');
+            // Redirect to new HTML page here
+            window.location.href = '/new-page/';
+          },
+          error: function(error) {
+            console.error('Error sending transcript:', error);
+          }
+        });
+      }
+
+      startButton.addEventListener('click', startRecording);
+      stopButton.addEventListener('click', stopRecording);
+      sendButton.addEventListener('click', function() {
+        sendTranscript(transcriptOutput.value.trim());
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>Recording</h2>
+    <button id="start-button">Start Recording</button>
+    <button id="stop-button" disabled>Stop Recording</button>
+    <p>Timer: <span id="timer">30</span> seconds</p>
+    <textarea id="transcript" rows="4" cols="50" placeholder="Transcript" readonly></textarea>
+    <button id="send-button" disabled>Send Transcript</button>
+    <a href="/newpage">Go to New Page</a>
+  </div>
+</body>
+</html>

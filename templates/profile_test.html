@@ -1,0 +1,15 @@
+<!-- profiles.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Profile</title>
+</head>
+<body>
+    <h1>Create Profile</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="images" required>
+        <input type="submit" value="Create Profile">
+    </form>
+</body>
+</html>

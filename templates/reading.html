@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* CSS styles go here */
+        #news-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .news-article {
+            width: 30%;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+        }
+
+        .news-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .news-description {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="news-container">
+        <!-- News articles will be displayed here -->
+    </div>
+
+    <script>
+        // JavaScript code goes here
+        const apiKey = 'eb36965b33d64367a78ea8ae3e19ccf3'; // Replace with your News API key
+        const newsUrl = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=' + apiKey;
+
+        fetch(newsUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Process the data here
+                const newsContainer = document.getElementById('news-container');
+
+                data.articles.forEach(article => {
+                    const articleDiv = document.createElement('div');
+                    articleDiv.classList.add('news-article');
+
+                    const title = document.createElement('div');
+                    title.classList.add('news-title');
+                    title.innerText = article.title;
+
+                    const description = document.createElement('div');
+                    description.classList.add('news-description');
+                    description.innerText = article.description;
+
+                    articleDiv.appendChild(title);
+                    articleDiv.appendChild(description);
+                    newsContainer.appendChild(articleDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    </script>
+</body>
+</html>

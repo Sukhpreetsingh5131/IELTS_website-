@@ -1,0 +1,149 @@
+<!-- registration_form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Registration Form</title>
+  <style>
+    body {
+      background-color: #000000;
+      font-family: Arial, sans-serif;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: lemonchiffon;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      position: relative;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .avatar-section {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .avatar-section img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .avatar-section .avatar-option {
+      display: inline-block;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      margin: 10px;
+      cursor: pointer;
+      background-size: cover;
+    }
+
+    .avatar-section .avatar-option:hover {
+      border-color: #4CAF50;
+    }
+
+    .form-section input[type="text"],
+    .form-section input[type="email"],
+    .form-section input[type="password"],
+    .form-section select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    .form-section input[type="submit"] {
+      background-color: #4CAF50;
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-section input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="avatar-section">
+      <input type="file" name="profile_picture" id="profile-picture-input" style="display: none;">
+     
+      <img src="default-avatar.png" alt="Profile Picture" id="profile-picture">
+      <br>
+      <span>Click to Upload Profile Picture</span>
+      <br>
+      <div class="avatar-option" style="background-image: url('avatar1.png');" onclick="selectAvatar('avatar1.png')"></div>
+      <div class="avatar-option" style="background-image: url('avatar2.png');" onclick="selectAvatar('avatar2.png')"></div>
+      <div class="avatar-option" style="background-image: url('avatar3.png');" onclick="selectAvatar('avatar3.png')"></div>
+      <div class="avatar-option" style="background-image: url('https://example.com/avatar4.png');" onclick="selectAvatar('https://example.com/avatar4.png')"></div>
+    </div>
+    <form class="form-section" action="/profiles/home_page/" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <select name="gender" required>
+        <option value="">Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="submit" value="Register">
+    </form>
+  </div>
+
+  <script>
+    function selectAvatar(avatarUrl) {
+      document.getElementById("profile-picture").src = avatarUrl;
+    }
+
+    document.getElementById("profile-picture").onclick = function() {
+      document.getElementById("profile-picture-input").click();
+    };
+
+    document.getElementById("profile-picture-input").onchange = function(event) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        document.getElementById("profile-picture").src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    };
+
+    function validateForm() {
+      var username = document.forms[0].username.value;
+      var email = document.forms[0].email.value;
+      var gender = document.forms[0].gender.value;
+      var password = document.forms[0].password.value;
+
+      if (username === '' || email === '' || gender === '' || password === '') {
+        alert("Please fill in all the fields.");
+        return false;
+      }
+
+      // Additional validation or form submission logic can be added here
+
+      return true;
+    }
+  </script>
+</body>
+</html>

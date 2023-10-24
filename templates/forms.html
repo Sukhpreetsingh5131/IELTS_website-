@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'forms.css' %}">
+  <style>
+    .signup-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+    .signup-btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+  <script>
+    function displayEmail() {
+      var email = document.getElementById('email').value;
+      document.getElementById('display-email').innerHTML = email;
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>Login Form</h2>
+    <form method="post" action="/thankyou">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your Gmail" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      </div>
+      <button type="submit" class="btn" onclick="displayEmail()">Send</button>
+      <a href="/signup" class="signup-btn">Sign Up</a>
+    </form>
+    <p>Entered Email: <span id="display-email"></span></p>
+  </div>
+</body>
+</html>

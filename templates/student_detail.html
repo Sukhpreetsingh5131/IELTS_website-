@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    
+    .green {
+      background-color: lightgreen;
+    }
+    
+    .blue {
+      background-color: lightblue;
+    }
+    
+    .red {
+      background-color: lightcoral;
+    }
+    
+    .yellow {
+      background-color: lightyellow;
+    }
+  </style>
+</head>
+<body>
+  <h2>Student Database</h2>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Password</th>
+      <th>City</th>
+      <th>Education</th>
+    </tr>
+    {% for user in student %}
+    <tr>
+      <td>{{ user.user_name }}</td>
+      <td>{{ user.user_email }}</td>
+      <td>{{ user.user_password }}</td>
+      <td>{{ user.user_city }}</td>
+      <td>{{ user.user_education }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <script>
+    // JavaScript code for color effects
+    var rows = document.getElementsByTagName('tr');
+    for (var i = 0; i < rows.length; i++) {
+      if (i % 2 === 0) {
+        rows[i].classList.add('green');
+      } else {
+        rows[i].classList.add('blue');
+      }
+    }
+    
+    var cells = document.getElementsByTagName('td');
+    for (var j = 0; j < cells.length; j++) {
+      var cellText = cells[j].textContent || cells[j].innerText;
+      if (cellText === 'password') {
+        cells[j].classList.add('red');
+      }
+      if (cellText === 'city') {
+        cells[j].classList.add('yellow');
+      }
+    }
+  </script>
+</body>
+</html>

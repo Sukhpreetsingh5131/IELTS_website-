@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Belts</title>
+  <style>
+    body {
+      background-color: white; /* Changed to white */
+      margin: 0;
+      padding: 0;
+    }
+    
+    .menu-bar {
+      background-color: skyblue;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      color: white;
+    }
+    
+    .power-button {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      background-image: url('static/img/sukhpreet.png');
+      background-size: cover;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    
+    .content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 60px);
+      color: white;
+    }
+    
+    .card {
+      background-color: lemonchiffon;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .new-card {
+      background-color: lightblue;
+      padding: 20px;
+      border-radius: 10px;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100vw;
+      height: calc(50vh - 60px);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .profile-frames {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 100px; /* Increased */
+      position: absolute; /* Added */
+      left: 50%; /* Added */
+      transform: translateX(-50%); /* Added */
+    }
+
+    .top-row {
+      top: 20px; /* Adjusted */
+    }
+
+    .bottom-row {
+      bottom: 20px; /* Adjusted */
+    }
+
+    .profile-frame {
+      width: 150px; /* Increased */
+      height: 150px; /* Increased */
+      background-color: white;
+      border-radius: 50%;
+      margin: 0 30px; /* Adjusted */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    
+    .username {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    #confirmation {
+      display: none;
+    }
+
+    .card-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .card-button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      border-radius: 5px;
+      background-color: skyblue;
+      color: white;
+      cursor: pointer;
+    }
+
+    .option-bar {
+      display: flex;
+      justify-content: center; /* Updated */
+      align-items: center; /* Added */
+      margin-top: 20px;
+    }
+
+    .option-button {
+      padding: 10px;
+      margin: 0 5px;
+      border-radius: 5px;
+      background-color: transparent;
+      color: rgb(3, 2, 2);
+      cursor: pointer;
+      border: none;
+      outline: none;
+      font-size: 18px;
+      position: relative;
+      display: flex; /* Added */
+      align-items: center; /* Added */
+    }
+
+    .option-button:before {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background-color: blue;
+      transition: width 0.3s;
+    }
+
+    .option-button:hover:before,
+    .option-button.active-option:before {
+      width: 100%;
+    }
+
+    .option-icon {
+      margin-right: 5px;
+    }
+
+    @media (max-width: 480px) {
+      .menu-bar {
+        height: 80px;
+        font-size: 18px;
+        justify-content: flex-start;
+        padding: 0 10px;
+      }
+      
+      .power-button {
+        width: 40px;
+        height: 40px;
+        margin-right: 20px;
+      }
+      
+      .content {
+        height: calc(100vh - 80px);
+      }
+      
+      .card {
+        font-size: 16px;
+        width: 80%;
+        max-width: 300px;
+      }
+
+      .new-card {
+        top: 80px;
+        height: calc(50vh - 80px);
+      }
+
+      .profile-frames {
+        margin-bottom: 100000000000px; /* Adjusted */
+      }
+      
+      
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+  <div class="menu-bar">
+    <div class="power-button" onclick="showConfirmation()"></div>
+    <span>{{title}}</span>
+  </div>
+  
+  <div class="content"></div>
+
+  <div id="confirmation" class="card">
+    <p>Are you sure you want to leave this room?</p>
+    <div class="card-buttons">
+      <button class="card-button" onclick="redirectToURL()">Yes</button>
+      <button class="card-button" onclick="closeCard()">No</button>
+    </div>
+  </div>
+
+  <div class="new-card">
+    <div class="profile-frames top-row">
+      <div class="profile-frame" style="background-image: url('{% static 'img/Screenshot 2023-07-16 at 7.28.20 AM.png' %}')"></div>
+      <div class="profile-frame" style="background-image: url('{% static 'img/Screenshot 2023-07-16 at 7.28.20 AM.png' %}')"></div>
+      <div class="profile-frame" style="background-image: url('{% static 'img/Screenshot 2023-07-16 at 7.28.20 AM.png' %}')"></div>
+    </div>
+    <div class="profile-frames bottom-row">
+      <div class="profile-frame" style="background-image: url('{% static 'img/Screenshot 2023-07-16 at 7.28.20 AM.png' %}')"></div>
+      <div class="profile-frame" style="background-image: url('{% static 'img/Screenshot 2023-07-16 at 7.28.20 AM.png' %}')"></div>
+      <div class="profile-frame" style="background-image: url('{% static 'img/Screenshot 2023-07-16 at 7.28.20 AM.png' %}')"></div>
+    </div>
+    <div class="username">sukh sir</div>
+    <img src="{% static 'img/Screenshot 2023-07-16 at 5.22.04 AM.png' %}" alt="Card Image">
+    <div class="option-bar">
+      <button class="option-button active-option" onclick="showChat()">
+        <i class="fas fa-comments option-icon"></i>CHAT
+      </button>
+      <button class="option-button" onclick="showParticipants()">
+        <i class="fas fa-hand-paper option-icon"></i>PARTICIPANTS
+      </button>
+    </div>
+    <div id="chat-section" style="display: block;">Chat section content goes here.</div>
+    <div id="participants-section" style="display: none;">Participants section content goes here.</div>
+  </div>
+
+  <script>
+    function showConfirmation() {
+      document.getElementById("confirmation").style.display = "block";
+    }
+    
+    function closeCard() {
+      document.getElementById("confirmation").style.display = "none";
+    }
+    
+    function redirectToURL() {
+      window.location.href = "/profiles/community/";
+    }
+
+    function showChat() {
+      document.getElementById("chat-section").style.display = "block";
+      document.getElementById("participants-section").style.display = "none";
+      document.querySelector(".option-button.active-option").classList.remove("active-option");
+      document.querySelector(".option-button:nth-child(1)").classList.add("active-option");
+    }
+
+    function showParticipants() {
+      document.getElementById("participants-section").style.display = "block";
+      document.getElementById("chat-section").style.display = "none";
+      document.querySelector(".option-button.active-option").classList.remove("active-option");
+      document.querySelector(".option-button:nth-child(2)").classList.add("active-option");
+    }
+  </script>
+</body>
+</html>
+
